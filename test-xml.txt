@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="AutomationTestingSuite" verbose="1" >
+    <test name="BookingAndNavigationTests" >
+        <classes>
+            <class name="tests.HomePageTest" />
+            <class name="tests.SuiteRoomPageTest" /> 
+            </classes>
+    </test>
+</suite>
