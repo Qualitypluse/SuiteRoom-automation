@@ -1,0 +1,35 @@
+package tests;
+
+import base.BaseTest;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import pages.HomePage;
+import pages.ReservePage;
+import pages.SuiteRoomPage;
+
+public class SuiteRoomPageTest extends BaseTest {
+
+    // Test Case: التحقق من إمكانية الانتقال لصفحة السويت ومن ثم بدء عملية الحجز
+    @Test(priority = 1, description = "Verify navigation to Suite Room details page and initiation of booking")
+    public void testSuitePageNavigationAndBookInitiation() {
+        
+        // 1. نبدأ من الصفحة الرئيسية
+        driver.get(BASE_URL); 
+        HomePage homePage = new HomePage(driver, wait);
+
+        // 2. النقر على "Check Availability" لغرفة السويت والانتقال لصفحة التفاصيل
+        SuiteRoomPage suitePage = homePage.clickCheckAvailabilityForSuiteRoom(); 
+
+        // 3. التحقق (Assertion): هل الصفحة المعروضة هي صفحة السويت بالفعل؟
+        Assert.assertTrue(suitePage.isSuiteRoomPageDisplayed(), 
+                "Test FAILED: The browser did not land on the Suite Room details page."); 
+        
+        // 4. النقر على "Book this room" للتأكد من أننا ننتقل لصفحة الحجز
+        ReservePage reservePage = suitePage.clickBookThisRoom(); 
+
+        // 5. التحقق (Assertion): هل تغير عنوان الصفحة ليدل على أننا في صفحة الحجز؟
+        // (يمكن استخدام عنصر فريد في ReservePage للتحقق أيضاً)
+        Assert.assertTrue(driver.getCurrentUrl().contains("/#/reserve/"), 
+                "Test FAILED: Clicking 'Book this room' did not navigate to the Reserve page.");
+    }
+}
