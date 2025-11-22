@@ -1,0 +1,41 @@
+package pages;
+
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class SuiteRoomPage {
+    private WebDriver driver;
+    private WebDriverWait wait;
+
+    // Constructor - لتمرير driver و wait
+    public SuiteRoomPage(WebDriver driver, WebDriverWait wait) {
+        this.driver = driver;
+        this.wait = wait;
+    }
+
+    /* -------------------------- Locators -------------------------- */
+    // زر "Book this room" الذي يظهر داخل صفحة تفاصيل الغرفة
+    private final By bookThisRoomButton = By.xpath("//button[text()='Book this room']");
+    
+    // عنوان الغرفة للتأكد من أننا في الصفحة الصحيحة
+    private final By roomDetailsTitle = By.xpath("//h2[text()='Suite Room']");
+
+    // --------------------------------- Actions ---------------------------------
+    
+    // التحقق من أن الصفحة هي صفحة Suite Room
+    public boolean isSuiteRoomPageDisplayed() {
+        try {
+            return wait.until(ExpectedConditions.visibilityOfElementLocated(roomDetailsTitle)).isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    // النقر على زر "Book this room" للانتقال لصفحة الحجز (ReservePage)
+    public ReservePage clickBookThisRoom() {
+        wait.until(ExpectedConditions.elementToBeClickable(bookThisRoomButton)).click();
+        // عند النقر، ننتقل لصفحة الحجز، لذلك نُرجع كائن ReservePage
+        return new ReservePage(driver, wait);
+    }
+}
